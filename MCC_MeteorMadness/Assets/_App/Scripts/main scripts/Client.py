@@ -5,10 +5,10 @@ import numpy as np
 import pandas as pd
 
 # Read data from CSV using pandas
-simulated_data = pd.read_csv("simulated_MP01.csv")
+simulated_data = pd.read_csv("meteorData.csv")
 
 # Define data stream names (modify these based on your actual stream names)
-data_stream_names = ["CHPTemp1", "LoopTemp1", "Stoom"]  #Edit this with the actual names, add as many as you want as long as you update the c# script as well
+data_stream_names = ["CADistanceNominalAU", "VrelativeKms", "Diameter"]  #Edit this with the actual names, add as many as you want as long as you update the c# script as well
 
 # HOST and PORT for connection (same as before)
 HOST = '127.0.0.1'  # localhost
