@@ -162,7 +162,7 @@ MonoBehaviour:
   earthMask:
     serializedVersion: 2
     m_Bits: 128
-  earthMeshCollider: {fileID: 0}
+  earthMeshCollider: {fileID: 9220579698582306921}
 --- !u!114 &5949413081584654490
 MonoBehaviour:
   m_ObjectHideFlags: 0
