@@ -2,44 +2,32 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 public class NasaDataHandler : MonoBehaviour
 {
-    // URL of NASA's Neo API endpoint
     private string apiUrl = "https://api.nasa.gov/neo/rest/v1/feed";
+    private string apiKey = "5P4uLC1RY5tlh0rigvI5Cfd08vzuf0zWHvE4Cbwe";
+    private string startDate = "2025-09-07";
+    private string endDate = "2025-09-08";
 
-    // Parameters for NASA API
-    private string apiKey = "5P4uLC1RY5tlh0rigvI5Cfd08vzuf0zWHvE4Cbwe";  // Replace with your actual API key
-    private string startDate = "2025-09-07";  // Example start date
-    private string endDate = "2025-09-08";    // Example end date
-
-    // Start is called before the first frame update
     void Start()
     {
-        // Start fetching NASA data via coroutine
         StartCoroutine(GetNasaData());
     }
 
-    // Coroutine to make HTTP request and parse the response
     IEnumerator GetNasaData()
     {
-        // Construct the API URL with parameters
         string requestUrl = $"{apiUrl}?api_key={apiKey}&start_date={startDate}&end_date={endDate}";
-
-        // Sending GET request to the NASA API
         UnityWebRequest www = UnityWebRequest.Get(requestUrl);
         yield return www.SendWebRequest();
 
         if (www.result == UnityWebRequest.Result.Success)
         {
-            // Parse the JSON data from the server
             string jsonResponse = www.downloadHandler.text;
             Debug.Log("Received Data: " + jsonResponse);
 
-            // Process the NASA data
             NasaData nasaData = ProcessNasaData(jsonResponse);
-
-            // Example usage: Display information about asteroids
             DisplayAsteroids(nasaData);
         }
         else
@@ -48,12 +36,10 @@ public class NasaDataHandler : MonoBehaviour
         }
     }
 
-    // Function to process the NASA data (deserialize JSON into usable objects)
     NasaData ProcessNasaData(string jsonData)
     {
         try
         {
-            // Deserialize JSON into the NasaData object using Newtonsoft.Json
             NasaData data = JsonConvert.DeserializeObject<NasaData>(jsonData);
             return data;
         }
@@ -64,7 +50,6 @@ public class NasaDataHandler : MonoBehaviour
         }
     }
 
-    // Example function to display asteroid details
     void DisplayAsteroids(NasaData data)
     {
         if (data == null || data.near_earth_objects == null)
@@ -73,9 +58,10 @@ public class NasaDataHandler : MonoBehaviour
             return;
         }
 
+        List<AsteroidData> asteroidDataList = new List<AsteroidData>();
+
         foreach (var date in data.near_earth_objects)
         {
-            Debug.Log($"Date: {date.Key}");
             foreach (var asteroid in date.Value)
             {
                 if (asteroid == null)
@@ -84,25 +70,40 @@ public class NasaDataHandler : MonoBehaviour
                     continue;
                 }
 
-                Debug.Log($"- Asteroid: {asteroid.name}");
-                Debug.Log($"  - Magnitude: {asteroid.absolute_magnitude_h}");
+                // Retrieve properties from the asteroid
+                string name = asteroid.name;
+                Vector3 position = GetAsteroidPosition(asteroid);  // Calculate position (placeholder here)
 
-                if (asteroid.close_approach_data != null)
-                {
-                    foreach (var approach in asteroid.close_approach_data)
-                    {
-                        if (approach != null)
-                        {
-                            Debug.Log($"    - Close Approach Date: {approach.close_approach_date}");
-                            Debug.Log($"    - Miss Distance (km): {approach.miss_distance?.kilometers}");
-                            Debug.Log($"    - Relative Velocity (km/h): {approach.relative_velocity?.kilometers_per_hour}");
-                        }
-                    }
-                }
+                // Parse the size value, ensure it's a valid float, otherwise use a default (100f)
+                float size = (float) asteroid.estimated_diameter?.meters?.estimated_diameter_max;
 
-                Debug.Log($"- Estimated Diameter (max meters): {asteroid.estimated_diameter?.meters?.estimated_diameter_max}");
-                Debug.Log($"- Estimated Diameter (min meters): {asteroid.estimated_diameter?.meters?.estimated_diameter_min}");
+                // Parse the speed value, ensure it's a valid float, otherwise use a default (0f)
+                float speed = float.Parse(asteroid.close_approach_data?[0].relative_velocity?.kilometers_per_hour);
+
+                // Parse the miss distance value, ensure it's a valid float, otherwise use a default (0f)
+                float missDistance = float.Parse(asteroid.close_approach_data?[0].miss_distance?.kilometers);
+
+                // Create an AsteroidData object
+                AsteroidData asteroidData = new AsteroidData(name, position, size, speed, missDistance);
+                asteroidDataList.Add(asteroidData);
             }
         }
+
+        // Update the global singleton with the new asteroid data
+        //AsteroidDataManager.Instance.UpdateAsteroidData(asteroidDataList);
+
+        // Optionally, print the list for debugging purposes
+        foreach (var dataItem in asteroidDataList)
+        {
+            Debug.Log($"Asteroid: {dataItem.name}, Position: {dataItem.position}, Size: {dataItem.size}, Speed: {dataItem.speed}, Miss Distance: {dataItem.missDistance}");
+        }
+    }
+
+    // Calculate or return the asteroid position (just a placeholder for now)
+    Vector3 GetAsteroidPosition(Asteroid asteroid)
+    {
+        // In the real world, you would calculate the position based on its orbital path or distance.
+        // For now, this is just a random position to visualize the asteroid in space.
+        return new Vector3(Random.Range(-1000, 1000), Random.Range(-1000, 1000), Random.Range(-1000, 1000));
     }
 }
