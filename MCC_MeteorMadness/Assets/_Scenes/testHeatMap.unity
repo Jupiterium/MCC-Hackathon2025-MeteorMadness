@@ -155,7 +155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   earth: {fileID: 1066943747}
-  speed: 14
+  speed: 50
 --- !u!135 &51789534
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -240,8 +240,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 55.7}
-  m_LocalScale: {x: 15, y: 15, z: 15}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1555,9 +1555,9 @@ GameObject:
   - component: {fileID: 1066943747}
   - component: {fileID: 1066943746}
   - component: {fileID: 1066943745}
-  - component: {fileID: 1066943748}
   - component: {fileID: 1066943749}
   - component: {fileID: 1066943750}
+  - component: {fileID: 1066943751}
   m_Layer: 7
   m_Name: BigSphere
   m_TagString: Untagged
@@ -1633,36 +1633,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1066943748
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1066943743}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c004ae37ecf876e4b8606cdc1011741b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHits: 32
-  rMin: 0.05
-  rMax: 0.5
-  radiusCurve: 1.5
-  intensityFloor: 0.533
-  intensityCurve: 1.88
-  diameterRangeM: {x: 1, y: 2000}
-  speedRangeKmS: {x: 1, y: 70}
-  metersToUnits: 0
-  kmToUnits: 0
-  scaleUnitsRange: {x: 0.1, y: 200}
-  relVelUnitsRange: {x: 1, y: 50}
-  preferProjectileSpeed: 1
-  diameterSource: {fileID: 0}
-  earthMask:
-    serializedVersion: 2
-    m_Bits: 128
-  earthMeshCollider: {fileID: 1066943750}
 --- !u!135 &1066943749
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1706,6 +1676,36 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1066943751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1066943743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c004ae37ecf876e4b8606cdc1011741b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHits: 41
+  rMin: 0.076
+  rMax: 0.5
+  radiusCurve: 1.78
+  intensityFloor: 0.624
+  intensityCurve: 1.88
+  diameterRangeM: {x: 1, y: 2000}
+  speedRangeKmS: {x: 1, y: 70}
+  metersToUnits: 0
+  kmToUnits: 0
+  scaleUnitsRange: {x: 0.1, y: 200}
+  relVelUnitsRange: {x: 1, y: 50}
+  preferProjectileSpeed: 1
+  diameterSource: {fileID: 0}
+  earthMask:
+    serializedVersion: 2
+    m_Bits: 128
+  earthMeshCollider: {fileID: 1066943750}
 --- !u!1 &1075884103
 GameObject:
   m_ObjectHideFlags: 0
