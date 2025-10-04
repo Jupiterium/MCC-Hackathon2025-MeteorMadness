@@ -1,12 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using System.Collections;
 
 public class NasaDataHandler : MonoBehaviour
 {
-    // URL of the Flask server running on Python
-    private string apiUrl = "http://localhost:5000/get_neo_data";
+    // URL of NASA's Neo API endpoint
+    private string apiUrl = "https://api.nasa.gov/neo/rest/v1/feed";
+
+    // Parameters for NASA API
+    private string apiKey = "5P4uLC1RY5tlh0rigvI5Cfd08vzuf0zWHvE4Cbwe";  // Replace with your actual API key
+    private string startDate = "2025-09-07";  // Example start date
+    private string endDate = "2025-09-08";    // Example end date
 
     // Start is called before the first frame update
     void Start()
@@ -18,8 +22,11 @@ public class NasaDataHandler : MonoBehaviour
     // Coroutine to make HTTP request and parse the response
     IEnumerator GetNasaData()
     {
-        // Sending GET request to the Flask API
-        UnityWebRequest www = UnityWebRequest.Get(apiUrl);
+        // Construct the API URL with parameters
+        string requestUrl = $"{apiUrl}?api_key={apiKey}&start_date={startDate}&end_date={endDate}";
+
+        // Sending GET request to the NASA API
+        UnityWebRequest www = UnityWebRequest.Get(requestUrl);
         yield return www.SendWebRequest();
 
         if (www.result == UnityWebRequest.Result.Success)
@@ -30,7 +37,7 @@ public class NasaDataHandler : MonoBehaviour
 
             // Process the NASA data
             NasaData nasaData = ProcessNasaData(jsonResponse);
-            
+
             // Example usage: Display information about asteroids
             DisplayAsteroids(nasaData);
         }
