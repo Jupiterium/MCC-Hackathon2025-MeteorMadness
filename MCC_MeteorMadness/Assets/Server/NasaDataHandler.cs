@@ -50,21 +50,41 @@ public class NasaDataHandler : MonoBehaviour
     // Example function to display asteroid details
     void DisplayAsteroids(NasaData data)
     {
+        if (data == null || data.near_earth_objects == null)
+        {
+            Debug.LogError("No asteroid data found.");
+            return;
+        }
+
         foreach (var date in data.near_earth_objects)
         {
             Debug.Log($"Date: {date.Key}");
+
             foreach (var asteroid in date.Value)
             {
-                Debug.Log($"- Asteroid Magnitude: {asteroid.absolute_magnitude_h}");
-                foreach (var approach in asteroid.close_approach_data)
+                if (asteroid == null)
                 {
-                    Debug.Log($"  - Close Approach Date: {approach.close_approach_date}");
-                    Debug.Log($"  - Miss Distance (km): {approach.miss_distance.kilometers}");
-                    Debug.Log($"  - Relative Velocity (km/h): {approach.relative_velocity.kilometers_per_hour}");
+                    Debug.LogWarning("Asteroid is null, skipping...");
+                    continue;
                 }
 
-                Debug.Log($"- Estimated Diameter (max meters): {asteroid.estimated_diameter.meters.estimated_diameter_max}");
-                Debug.Log($"- Estimated Diameter (min meters): {asteroid.estimated_diameter.meters.estimated_diameter_min}");
+                Debug.Log($"- Asteroid Magnitude: {asteroid.absolute_magnitude_h}");
+
+                if (asteroid.close_approach_data != null)
+                {
+                    foreach (var approach in asteroid.close_approach_data)
+                    {
+                        if (approach != null)
+                        {
+                            Debug.Log($"  - Close Approach Date: {approach.close_approach_date}");
+                            Debug.Log($"  - Miss Distance (km): {approach.miss_distance?.kilometers}");
+                            Debug.Log($"  - Relative Velocity (km/h): {approach.relative_velocity?.kilometers_per_hour}");
+                        }
+                    }
+                }
+
+                Debug.Log($"- Estimated Diameter (max meters): {asteroid.estimated_diameter?.meters?.estimated_diameter_max}");
+                Debug.Log($"- Estimated Diameter (min meters): {asteroid.estimated_diameter?.meters?.estimated_diameter_min}");
             }
         }
     }

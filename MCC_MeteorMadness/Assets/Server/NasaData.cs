@@ -14,6 +14,7 @@ public class Asteroid
     public float absolute_magnitude_h;
     public List<CloseApproachData> close_approach_data;
     public EstimatedDiameter estimated_diameter;
+    public string name; // Ensure name exists if needed
 }
 
 [System.Serializable]
