@@ -9,6 +9,12 @@ public class NasaData
 }
 
 [System.Serializable]
+public class NasaDataWrapper
+{
+    public NasaData data;
+}
+
+[System.Serializable]
 public class Asteroid
 {
     public float absolute_magnitude_h;

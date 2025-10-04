@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
+using Newtonsoft.Json;
 
 public class NasaDataHandler : MonoBehaviour
 {
@@ -50,8 +51,17 @@ public class NasaDataHandler : MonoBehaviour
     // Function to process the NASA data (deserialize JSON into usable objects)
     NasaData ProcessNasaData(string jsonData)
     {
-        NasaData data = JsonUtility.FromJson<NasaData>(jsonData);
-        return data;
+        try
+        {
+            // Deserialize JSON into the NasaData object using Newtonsoft.Json
+            NasaData data = JsonConvert.DeserializeObject<NasaData>(jsonData);
+            return data;
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError("Error during deserialization: " + ex.Message);
+            return null;
+        }
     }
 
     // Example function to display asteroid details
@@ -66,7 +76,6 @@ public class NasaDataHandler : MonoBehaviour
         foreach (var date in data.near_earth_objects)
         {
             Debug.Log($"Date: {date.Key}");
-
             foreach (var asteroid in date.Value)
             {
                 if (asteroid == null)
@@ -75,7 +84,8 @@ public class NasaDataHandler : MonoBehaviour
                     continue;
                 }
 
-                Debug.Log($"- Asteroid Magnitude: {asteroid.absolute_magnitude_h}");
+                Debug.Log($"- Asteroid: {asteroid.name}");
+                Debug.Log($"  - Magnitude: {asteroid.absolute_magnitude_h}");
 
                 if (asteroid.close_approach_data != null)
                 {
@@ -83,9 +93,9 @@ public class NasaDataHandler : MonoBehaviour
                     {
                         if (approach != null)
                         {
-                            Debug.Log($"  - Close Approach Date: {approach.close_approach_date}");
-                            Debug.Log($"  - Miss Distance (km): {approach.miss_distance?.kilometers}");
-                            Debug.Log($"  - Relative Velocity (km/h): {approach.relative_velocity?.kilometers_per_hour}");
+                            Debug.Log($"    - Close Approach Date: {approach.close_approach_date}");
+                            Debug.Log($"    - Miss Distance (km): {approach.miss_distance?.kilometers}");
+                            Debug.Log($"    - Relative Velocity (km/h): {approach.relative_velocity?.kilometers_per_hour}");
                         }
                     }
                 }
