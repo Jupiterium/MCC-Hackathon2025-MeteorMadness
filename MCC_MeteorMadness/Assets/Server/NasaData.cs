@@ -3,6 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
+public class AsteroidData
+{
+    public string name;             // Name of the asteroid
+    public Vector3 position;        // Position of the asteroid in the game world
+    public float size;              // Size of the asteroid (max diameter in meters)
+    public float speed;             // Speed of the asteroid (km/h)
+    public float missDistance;      // Miss Distance (km)
+
+    // Constructor to initialize the AsteroidData from an Asteroid object
+    public AsteroidData(string name, Vector3 position, float size, float speed, float missDistance)
+    {
+        this.name = name;
+        this.position = position;
+        this.size = size;
+        this.speed = speed;
+        this.missDistance = missDistance;
+    }
+}
+
+[System.Serializable]
 public class NasaData
 {
     public Dictionary<string, List<Asteroid>> near_earth_objects;
