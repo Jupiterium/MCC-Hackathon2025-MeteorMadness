@@ -12,7 +12,10 @@ GameObject:
   - component: {fileID: 920025926777137716}
   - component: {fileID: 630955927810921914}
   - component: {fileID: 7080093453032210381}
-  m_Layer: 0
+  - component: {fileID: 9220579698582306921}
+  - component: {fileID: 4505858547999111347}
+  - component: {fileID: 5949413081584654490}
+  m_Layer: 7
   m_Name: Earth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -65,7 +68,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2bb18e9e07217be448ba66edce9174c1, type: 2}
+  - {fileID: 2100000, guid: e9ed20baa087ba84eac33d2f618609f6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -108,3 +111,69 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!64 &9220579698582306921
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8487899724007303979}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &4505858547999111347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8487899724007303979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c004ae37ecf876e4b8606cdc1011741b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHits: 32
+  rMin: 0.05
+  rMax: 0.2
+  radiusCurve: 1.3
+  intensityFloor: 0.25
+  intensityCurve: 1.3
+  diameterRangeM: {x: 10, y: 2000}
+  speedRangeKmS: {x: 5, y: 70}
+  metersToUnits: 0
+  kmToUnits: 0
+  scaleUnitsRange: {x: 0.1, y: 1.5}
+  relVelUnitsRange: {x: 1, y: 50}
+  preferProjectileSpeed: 1
+  diameterSource: {fileID: 0}
+  earthMask:
+    serializedVersion: 2
+    m_Bits: 128
+  earthMeshCollider: {fileID: 0}
+--- !u!114 &5949413081584654490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8487899724007303979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c039772d39c72d4ca0f6ec5691f14da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeScale: 1000
+  rotationAxis: {x: 0, y: 0.3987, z: 0.917}

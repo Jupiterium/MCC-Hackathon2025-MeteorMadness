@@ -13,9 +13,9 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
+  - HeatMapLayer
+  - EarthLayer
+  - Layer1
   - 
   - Earth
   - 
