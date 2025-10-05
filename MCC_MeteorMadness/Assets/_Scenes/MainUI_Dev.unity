@@ -1966,7 +1966,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0.0022583, y: -24.999}
-  m_SizeDelta: {x: 569.24, y: 229.7}
+  m_SizeDelta: {x: 548, y: 133}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &628774008
 MonoBehaviour:
@@ -2015,8 +2015,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 15
+  m_fontSizeBase: 15
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -3408,7 +3408,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -1635.4, y: -802}
+  m_AnchoredPosition: {x: -1635.4, y: -866}
   m_SizeDelta: {x: 569.249, y: 320}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1061020718
@@ -5902,7 +5902,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3088708781015559428, guid: 6ef3874c75cfad147aa743f48b9a6da7, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3170477132707400861, guid: 6ef3874c75cfad147aa743f48b9a6da7, type: 3}
       propertyPath: earth
@@ -5997,6 +5997,10 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5185471265760774982, guid: 6ef3874c75cfad147aa743f48b9a6da7, type: 3}
+      propertyPath: isEnabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5185471265760774982, guid: 6ef3874c75cfad147aa743f48b9a6da7, type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
@@ -6067,6 +6071,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4505858547999111347, guid: 092391675162d9b4d834bb40de40098d, type: 3}
+      propertyPath: consequencesUI
+      value: 
+      objectReference: {fileID: 1061020720}
+    - target: {fileID: 4505858547999111347, guid: 092391675162d9b4d834bb40de40098d, type: 3}
       propertyPath: earthMeshCollider
       value: 
       objectReference: {fileID: 7962591427578229879}
@@ -6116,19 +6124,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7677204392344057060, guid: 092391675162d9b4d834bb40de40098d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.8011944
+      value: 0.7473289
       objectReference: {fileID: 0}
     - target: {fileID: 7677204392344057060, guid: 092391675162d9b4d834bb40de40098d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.0120797735
+      value: -0.011710964
       objectReference: {fileID: 0}
     - target: {fileID: 7677204392344057060, guid: 092391675162d9b4d834bb40de40098d, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.24204369
+      value: 0.26931545
       objectReference: {fileID: 0}
     - target: {fileID: 7677204392344057060, guid: 092391675162d9b4d834bb40de40098d, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.5471348
+      value: 0.6073151
       objectReference: {fileID: 0}
     - target: {fileID: 7677204392344057060, guid: 092391675162d9b4d834bb40de40098d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
