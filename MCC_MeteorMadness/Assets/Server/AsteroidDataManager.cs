@@ -1,4 +1,4 @@
-﻿//using System.Collections.Generic;
+//using System.Collections.Generic;
 //using UnityEngine;
 
 //public class AsteroidDataManager : MonoBehaviour
@@ -234,6 +234,30 @@ public class AsteroidDataManager : MonoBehaviour
 
         float units = basis * metersToUnits * visualScale;
         return Mathf.Clamp(units, minScaleUnits, maxScaleUnits);
+    }
+
+    public static string ConvertToScientificString(float number)
+    {
+        // Convert the float to scientific notation using exponential format
+        string scientificNotation = number.ToString("E");
+
+        // Split the string at the 'E' to get the coefficient and exponent parts
+        string[] parts = scientificNotation.Split('E');
+        
+        // Get the coefficient and exponent as strings
+        string coefficient = parts[0];
+        string exponent = parts[1];
+
+        // Round the coefficient to two decimal places
+        float roundedCoefficient = float.Parse(coefficient);
+        coefficient = roundedCoefficient.ToString("0.00");
+
+        // Format the exponent as an integer to remove the '+' sign and leading zeros
+        int exponentInt = int.Parse(exponent);
+        exponent = exponentInt.ToString(); // This ensures no "+" or leading zeros.
+
+        // Return the formatted result in the desired format
+        return $"{coefficient} x 10^{exponent}";
     }
 
 
