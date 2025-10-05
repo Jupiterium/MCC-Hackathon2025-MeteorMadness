@@ -261,6 +261,10 @@ public class QuadScript : MonoBehaviour
     public LayerMask earthMask;
     [SerializeField] private MeshCollider earthMeshCollider;
 
+    // QuadScript.cs (top of class)
+    [SerializeField] private ConsequencesUI consequencesUI; // drag in Inspector if you can
+
+
     MeshRenderer _mr;
     Material _mat;
     float[] _hits; // (u, v, r, s)
@@ -277,7 +281,7 @@ public class QuadScript : MonoBehaviour
         _mat.SetFloatArray("_Hits", _hits);
         _mat.SetInt("_HitCount", 0);
 
-        
+
     }
 
     void OnCollisionEnter(Collision collision)
@@ -387,7 +391,43 @@ public class QuadScript : MonoBehaviour
             // optional: destroy projectile
             Destroy(rb ? rb.gameObject : cp.otherCollider.gameObject);
         }
+
+        // ... your existing impact / heatmap code ...
+
+        // --- Compute or read your heatmap radius ---
+        // If you already store it in units, convert units->km (1u = 1000 km).
+        float heatmapRadiusUnits = 0.5f; // <-- replace with your real value
+        float heatmapRadiusKm = heatmapRadiusUnits * 1000f;
+
+        // Optional quick hints (keep it simple for demo)
+        string regionHint = "Ocean";                   // or "Land / Near Coast" etc.
+        string quakeNote = "Aftershocks possible within hours–days.";
+        string tsunamiNote = "Potential local tsunami if near coastlines.";
+
+        // If you have an energy estimate → show a magnitude, else omit with -1f
+        float estMag = -1f;
+
+        // --- Show the UI ---
+        //#if UNITY_2023_1_OR_NEWER
+        if (consequencesUI == null)
+                    consequencesUI = Object.FindFirstObjectByType<ConsequencesUI>(FindObjectsInactive.Include);
+        //#else
+        //    if (consequencesUI == null)
+        //        consequencesUI = FindObjectOfType<ConsequencesUI>(true); // legacy fallback
+        //#endif
+
+        if (consequencesUI != null)
+        {
+            consequencesUI.ShowConsequences(heatmapRadiusKm, regionHint, quakeNote, tsunamiNote, estMag);
+            Debug.Log("[QuadScript] ConsequencesUI shown via collision hook.");
+        }
+        else
+        {
+            Debug.LogWarning("[QuadScript] ConsequencesUI not found. Assign it in the Inspector or ensure it's in the scene.");
+        }
+
     }
+
 }
 
 
