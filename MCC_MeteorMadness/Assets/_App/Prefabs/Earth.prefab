@@ -162,7 +162,7 @@ MonoBehaviour:
   earthMask:
     serializedVersion: 2
     m_Bits: 128
-  earthMeshCollider: {fileID: 9220579698582306921}
+  earthMeshCollider: {fileID: 0}
 --- !u!114 &5949413081584654490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,7 +170,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8487899724007303979}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4c039772d39c72d4ca0f6ec5691f14da, type: 3}
   m_Name: 

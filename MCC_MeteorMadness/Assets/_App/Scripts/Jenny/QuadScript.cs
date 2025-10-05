@@ -276,6 +276,8 @@ public class QuadScript : MonoBehaviour
 
         _mat.SetFloatArray("_Hits", _hits);
         _mat.SetInt("_HitCount", 0);
+
+        
     }
 
     void OnCollisionEnter(Collision collision)
@@ -387,6 +389,173 @@ public class QuadScript : MonoBehaviour
         }
     }
 }
+
+
+
+
+
+//using UnityEngine;
+
+//public class QuadScript : MonoBehaviour
+//{
+//    [Header("Heatmap buffer")]
+//    [Range(1, 64)] public int maxHits = 32;
+
+//    [Header("Radius mapping (UV units)")]
+//    [Range(0.01f, 0.5f)] public float rMin = 0.05f;
+//    [Range(0.01f, 0.5f)] public float rMax = 0.20f;
+//    [Range(0.5f, 3f)]    public float radiusCurve = 1.3f;
+
+//    [Header("Intensity mapping (brightness)")]
+//    [Range(0f, 1f)]      public float intensityFloor = 0.25f;
+//    [Range(0.5f, 3f)]    public float intensityCurve = 1.3f;
+
+//    [Header("Expected ranges (normalize without ImpactData)")]
+//    public Vector2 diameterRangeM = new Vector2(10f, 2000f);
+//    public Vector2 speedRangeKmS  = new Vector2(5f, 70f);
+
+//    [Header("Optional scene scale (only if you want real units)")]
+//    public float metersToUnits = 0f;
+//    public float kmToUnits     = 0f;
+
+//    [Header("Proxies when you DON'T use real units")]
+//    public Vector2 scaleUnitsRange  = new Vector2(1f, 50f);
+//    public Vector2 relVelUnitsRange = new Vector2(1f, 50f);
+//    public bool preferProjectileSpeed = true;
+
+//    [Header("If the collider is a separate prefab, read diameter from this")]
+//    public Transform diameterSource;
+
+//    [Header("Raycast (not used anymore for stamping, kept for compatibility)")]
+//    public LayerMask earthMask;
+//    [SerializeField] private MeshCollider earthMeshCollider;
+
+//    // Internals
+//    MeshRenderer _mr;
+//    Material _mat;             // material using your HeatMapShader
+//    float[] _hits;             // packed (u, v, r, s)
+//    int _hitCount;
+
+//    void Start()
+//    {
+//        if (earthMeshCollider == null) earthMeshCollider = GetComponent<MeshCollider>();
+
+//        _mr  = GetComponent<MeshRenderer>();
+//        _mat = _mr.material;                // unique instance
+//        _hits = new float[maxHits * 4];
+
+//        _mat.SetFloatArray("_Hits", _hits);
+//        _mat.SetInt("_HitCount", 0);
+//    }
+
+//    // ===========================
+//    // PUBLIC: collisionless APIs
+//    // ===========================
+
+//    /// <summary>Clear all heatmap blobs.</summary>
+//    public void Clear()
+//    {
+//        _hitCount = 0;
+//        System.Array.Clear(_hits, 0, _hits.Length);
+//        Push();
+//    }
+
+//    /// <summary>
+//    /// Stamp a blob at a given latitude/longitude (degrees).
+//    /// radiusUV: 0..~0.5 in UV units, intensity: 0..1.
+//    /// </summary>
+//    public void StampLatLon(float latDeg, float lonDeg, float radiusUV, float intensity)
+//    {
+//        Vector2 uv = LatLonToUV(latDeg, lonDeg);
+//        Write(uv.x, uv.y, Mathf.Clamp(radiusUV, 0.001f, 0.5f), Mathf.Clamp01(intensity));
+//        Push();
+//    }
+
+//    /// <summary>
+//    /// Stamp at the estimated impact point from a world position (asteroid → Earth direction).
+//    /// Useful when you only know where the asteroid sits in space relative to Earth.
+//    /// </summary>
+//    public void StampFromDirection(Vector3 asteroidWorldPos, float radiusUV = 0.10f, float intensity = 0.8f)
+//    {
+//        Vector3 dir = (transform.position - asteroidWorldPos).normalized; // approach vector
+//        Vector2 uv  = DirectionToUV(dir);
+//        Write(uv.x, uv.y, Mathf.Clamp(radiusUV, 0.001f, 0.5f), Mathf.Clamp01(intensity));
+//        Push();
+//    }
+
+//    /// <summary>
+//    /// Stamp using physical-ish data (diameter, speed). If you also pass the asteroid world position,
+//    /// we estimate the UV from that direction; otherwise we default to (lat,lon) = (0,0).
+//    /// </summary>
+//    public void StampFromData(float diameter_m, float speed_kms, Vector3? asteroidWorldPos = null)
+//    {
+//        // Normalize 0..1
+//        float dN = Mathf.InverseLerp(diameterRangeM.x, diameterRangeM.y, diameter_m);
+//        float vN = Mathf.InverseLerp(speedRangeKmS.x,  speedRangeKmS.y,  speed_kms);
+
+//        // Size-led radius; speed-led intensity (tweak weights if needed)
+//        float mixR = Mathf.Clamp01(0.75f * dN + 0.25f * vN);
+//        float tRad = Mathf.Pow(mixR, radiusCurve);
+//        float r    = Mathf.Lerp(rMin, rMax, tRad);
+
+//        float mixS = Mathf.Clamp01(0.40f * dN + 0.60f * vN);
+//        float tInt = Mathf.Pow(mixS, intensityCurve);
+//        float s    = Mathf.Lerp(intensityFloor, 1.0f, tInt);
+
+//        Vector2 uv = asteroidWorldPos.HasValue
+//            ? DirectionToUV((transform.position - asteroidWorldPos.Value).normalized)
+//            : LatLonToUV(0f, 0f);
+
+//        Write(uv.x, uv.y, r, s);
+//        Push();
+//    }
+
+//    // ===========================
+//    // Internals (helpers)
+//    // ===========================
+
+//    Vector2 LatLonToUV(float latDeg, float lonDeg)
+//    {
+//        float lat = latDeg * Mathf.Deg2Rad;            // [-pi/2..pi/2]
+//        float lon = lonDeg * Mathf.Deg2Rad;            // [-pi..pi]
+//        float u = (lon + Mathf.PI) / (2f * Mathf.PI);  // [0..1]
+//        float v = (lat + Mathf.PI * 0.5f) / Mathf.PI;  // [0..1]
+//        return new Vector2(u, v);
+//    }
+
+//    Vector2 DirectionToUV(Vector3 dir)
+//    {
+//        dir.Normalize();
+//        float lat = Mathf.Asin(dir.y);
+//        float lon = Mathf.Atan2(dir.x, dir.z);
+//        float u = (lon + Mathf.PI) / (2f * Mathf.PI);
+//        float v = (lat + Mathf.PI * 0.5f) / Mathf.PI;
+//        return new Vector2(u, v);
+//    }
+
+//    void Write(float u, float v, float r, float s)
+//    {
+//        int idx = (_hitCount % maxHits) * 4;
+//        _hits[idx + 0] = u;
+//        _hits[idx + 1] = v;
+//        _hits[idx + 2] = r;
+//        _hits[idx + 3] = s;
+//        _hitCount++;
+//    }
+
+//    void Push()
+//    {
+//        _mat.SetFloatArray("_Hits", _hits);
+//        _mat.SetInt("_HitCount", Mathf.Min(_hitCount, maxHits));
+//    }
+
+//    // ===========================
+//    // OLD COLLISION PATH (kept off)
+//    // ===========================
+//    // If you ever need it again, re-enable and it will keep working.
+//    //void OnCollisionEnter(Collision collision) { /* ...previous code... */ }
+//}
+
 
 
 

@@ -97,10 +97,3 @@ Shader "Unlit/HeatMapShader"
         }
     }
 }
-
-
-
-
-
-
-
