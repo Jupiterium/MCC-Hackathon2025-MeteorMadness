@@ -8,22 +8,25 @@ public class BallExplosion : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("TargetBall"))
+        if (collision.gameObject.CompareTag("Earth"))
         {
-            // Spawn explosion facing the camera
+            // Get exact contact point on Earth's surface
+            ContactPoint contact = collision.contacts[0];
+            Vector3 impactPoint = contact.point;
+            Vector3 impactNormal = contact.normal;
+
+            // Spawn explosion prefab at impact point, oriented along the surface normal
             if (explosionEffect != null)
             {
-                GameObject explosion = Instantiate(
-                    explosionEffect,
-                    transform.position,
-                    Quaternion.LookRotation(Camera.main.transform.forward)
-                );
+                Quaternion rotation = Quaternion.LookRotation(impactNormal);
+                GameObject explosion = Instantiate(explosionEffect, impactPoint, rotation);
 
-                // Destroy explosion after particle duration
+                // Automatically destroy after particle system finishes
                 ParticleSystem ps = explosion.GetComponent<ParticleSystem>();
                 if (ps != null)
                 {
-                    Destroy(explosion, ps.main.duration + ps.main.startLifetime.constantMax);
+                    float totalDuration = ps.main.duration + ps.main.startLifetime.constantMax;
+                    Destroy(explosion, totalDuration);
                 }
                 else
                 {
@@ -31,16 +34,18 @@ public class BallExplosion : MonoBehaviour
                 }
             }
 
-            // Optional: apply force to nearby rigidbodies
-            Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
+            // Optional: apply explosion force to nearby rigidbodies
+            Collider[] colliders = Physics.OverlapSphere(impactPoint, explosionRadius);
             foreach (Collider nearby in colliders)
             {
                 Rigidbody rbNearby = nearby.GetComponent<Rigidbody>();
                 if (rbNearby != null)
-                    rbNearby.AddExplosionForce(explosionForce, transform.position, explosionRadius);
+                {
+                    rbNearby.AddExplosionForce(explosionForce, impactPoint, explosionRadius);
+                }
             }
 
-            // Destroy the moving ball
+            // Destroy the projectile after impact
             Destroy(gameObject);
         }
     }

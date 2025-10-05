@@ -22,13 +22,12 @@ Shader "Unlit/HeatMapShader"
             #include "UnityCG.cginc"
 
             struct appdata { float4 vertex:POSITION; float2 uv:TEXCOORD0; };
-            struct v2f     { float2 uv:TEXCOORD0;    float4 pos:SV_POSITION; };
+            struct v2f     { float2 uv:TEXCOORD0; float4 pos:SV_POSITION; };
 
             sampler2D _MainTex; float4 _MainTex_ST;
             float4 _BaseTint;
             float  _AdditiveStrength;
 
-            // (u, v, r, s) per hit: uv coords, radius (UV units), intensity (0..1)
             float _Hits[4 * 64];
             int   _HitCount;
 
@@ -40,29 +39,33 @@ Shader "Unlit/HeatMapShader"
                 return o;
             }
 
-            // radial falloff using per-hit radius r (in UV units)
             float Falloff(float2 uv, float2 pt, float r)
             {
                 r = max(r, 1e-5);
-                float d = distance(uv, pt) / r;
+                float2 diff = abs(uv - pt);
+                diff = min(diff, 1.0 - diff);
+                float d = length(diff) / r;
                 float t = saturate(1.0 - d);
-                return t * t; // quadratic falloff
+                return t * t;
             }
 
-            // 0..1 -> color ramp
+            // Improved gradient emphasizing orange and red
             float3 HeatRamp(float w)
             {
-                // define three colors: green (low), yellow (mid), red (high)
-                float3 cLow  = float3(0.0, 1.0, 0.0); // green
-                float3 cMid  = float3(1.0, 1.0, 0.0); // yellow
-                float3 cHigh = float3(1.0, 0.0, 0.0); // red
-
                 w = saturate(w);
 
-                if (w < 0.5)
-                    return lerp(cLow, cMid, w / 0.5);   // green to yellow
+                // Key gradient points
+                float3 c1 = float3(0.0, 0.6, 0.0); // dark green
+                float3 c2 = float3(1.0, 1.0, 0.0); // yellow
+                float3 c3 = float3(1.0, 0.5, 0.0); // orange
+                float3 c4 = float3(1.0, 0.0, 0.0); // red
+
+                if (w < 0.3)
+                    return lerp(c1, c2, w / 0.3);       // green -> yellow
+                else if (w < 0.6)
+                    return lerp(c2, c3, (w - 0.3) / 0.3); // yellow -> orange
                 else
-                    return lerp(cMid, cHigh, (w - 0.5) / 0.5); // yellow to red
+                    return lerp(c3, c4, (w - 0.6) / 0.4); // orange -> red
             }
 
             fixed4 frag (v2f i) : SV_Target
@@ -76,19 +79,14 @@ Shader "Unlit/HeatMapShader"
                 {
                     float2 pt = float2(_Hits[k*4+0], _Hits[k*4+1]);
                     float  r  = _Hits[k*4+2];
-                    float  s  = _Hits[k*4+3]; // intensity weight (0..1)
+                    float  s  = _Hits[k*4+3];
 
-                    // Quadratic falloff for epicenter dominance
                     float falloff = Falloff(uv, pt, r);
-                    w += s * falloff * 2.5; // amplify the impact for visible saturation
+                    w += s * falloff * 2.2; // slightly increased brightness
                 }
 
                 w = saturate(w);
-
-                // Only apply heatmap if there’s an impact
                 float3 heat = (w > 0.001) ? HeatRamp(w) * _AdditiveStrength : float3(0,0,0);
-
-                // Final color: base planet + impact heat
                 float3 finalCol = baseCol + heat;
 
                 return float4(finalCol, 1.0);
@@ -97,10 +95,3 @@ Shader "Unlit/HeatMapShader"
         }
     }
 }
-
-
-
-
-
-
-

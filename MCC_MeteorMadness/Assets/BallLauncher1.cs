@@ -8,7 +8,7 @@ public class BallLauncher : MonoBehaviour
     void Start()
     {
         // Find the target ball by tag
-        GameObject targetObj = GameObject.FindGameObjectWithTag("TargetBall");
+        GameObject targetObj = GameObject.FindGameObjectWithTag("Earth");
         if (targetObj != null)
         {
             target = targetObj.transform;
