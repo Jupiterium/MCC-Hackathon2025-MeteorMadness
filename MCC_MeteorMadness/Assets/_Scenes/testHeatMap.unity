@@ -149,13 +149,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 51789532}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53f2a14aa89c542488299cb7152ae9c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   earth: {fileID: 1066943747}
-  speed: 50
+  speed: 5
 --- !u!135 &51789534
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -239,7 +239,7 @@ Transform:
   m_GameObject: {fileID: 51789532}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 55.7}
+  m_LocalPosition: {x: 0, y: 3.9, z: 101.26}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -279,13 +279,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 51789532}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36710a93e0923814bb492e2622edbbf9, type: 3}
+  m_Script: {fileID: 11500000, guid: d16d40d2dced01544ad960a6984795a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  diameterMeters: 50
-  speedKmPerSec: 50
+  explosionEffect: {fileID: 7522982781472501662, guid: 017c9fcd02ca72049806a4014da0bea6, type: 3}
+  explosionForce: 500
+  explosionRadius: 5
 --- !u!114 &51789540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,13 +294,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 51789532}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aeeed8bef1ba7bc4a85fe176b11dcb6f, type: 3}
+  m_Script: {fileID: 11500000, guid: 546a7a54155bd8a459c59eac5284d186, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  diameterMeters: 3
-  speedKmPerSec: 4
+  speed: 10
 --- !u!1 &162684363
 GameObject:
   m_ObjectHideFlags: 0
@@ -554,8 +554,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36710a93e0923814bb492e2622edbbf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  diameterMeters: 5
-  speedKmPerSec: 10
 --- !u!1 &329411067
 GameObject:
   m_ObjectHideFlags: 0
@@ -677,13 +675,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 329411067}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.24794401, y: -0.26469833, z: 0.07062868, w: 0.929231}
-  m_LocalPosition: {x: -1.0733502, y: 5.87, z: -10.13213}
+  m_LocalRotation: {x: 0.021396378, y: -0.9666972, z: 0.2537629, w: 0.025359564}
+  m_LocalPosition: {x: -1.4, y: 8, z: 11.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1622423893}
-  m_LocalEulerAnglesHint: {x: 29.88, y: -31.8, z: 0}
+  m_LocalEulerAnglesHint: {x: 29.453, y: -177.488, z: -1.875}
 --- !u!1 &345298504
 GameObject:
   m_ObjectHideFlags: 0
@@ -1190,8 +1188,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36710a93e0923814bb492e2622edbbf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  diameterMeters: 5
-  speedKmPerSec: 10
 --- !u!1 &905660979
 GameObject:
   m_ObjectHideFlags: 0
@@ -1356,8 +1352,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36710a93e0923814bb492e2622edbbf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  diameterMeters: 5
-  speedKmPerSec: 10
 --- !u!1 &937785298
 GameObject:
   m_ObjectHideFlags: 0
@@ -1559,9 +1553,10 @@ GameObject:
   - component: {fileID: 1066943750}
   - component: {fileID: 1066943751}
   - component: {fileID: 1066943752}
+  - component: {fileID: 1066943753}
   m_Layer: 7
   m_Name: BigSphere
-  m_TagString: Untagged
+  m_TagString: Earth
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1627,7 +1622,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1066943743}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.00032390654, y: -0.11656467, z: -0.24548998, w: -0.96236545}
+  m_LocalRotation: {x: -0.003703177, y: -0.25308606, z: -0.5614561, w: -0.7878457}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 12.756, y: 12.756, z: 12.756}
   m_ConstrainProportionsScale: 1
@@ -1706,7 +1701,7 @@ MonoBehaviour:
   earthMask:
     serializedVersion: 2
     m_Bits: 128
-  earthMeshCollider: {fileID: 1066943750}
+  earthMeshCollider: {fileID: 0}
 --- !u!114 &1066943752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1721,6 +1716,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeScale: 1000
   rotationAxis: {x: 0, y: 0.3987, z: 0.917}
+--- !u!54 &1066943753
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1066943743}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 2
 --- !u!1 &1075884103
 GameObject:
   m_ObjectHideFlags: 0
@@ -1979,8 +2001,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36710a93e0923814bb492e2622edbbf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  diameterMeters: 5
-  speedKmPerSec: 10
 --- !u!1 &1322026256
 GameObject:
   m_ObjectHideFlags: 0
@@ -2552,8 +2572,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36710a93e0923814bb492e2622edbbf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  diameterMeters: 5
-  speedKmPerSec: 10
 --- !u!1001 &5228877379113917928
 PrefabInstance:
   m_ObjectHideFlags: 0
