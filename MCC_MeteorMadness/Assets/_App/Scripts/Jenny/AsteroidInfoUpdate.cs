@@ -27,6 +27,16 @@ public class AsteroidInfoUpdate : MonoBehaviour
     {
 
     }
+
+    public void showCurrentText() {
+        if (currentSelection == 0)
+        {
+            nameText.text = "Name: " + AsteroidDataManager.asteroidDataList.ElementAt(currentSelection).name;
+            diameterText.text = "Diameter: " + AsteroidDataManager.asteroidDataList.ElementAt(currentSelection).size + "-m";
+            distanceText.text = "Distance: " + AsteroidDataManager.asteroidDataList.ElementAt(currentSelection).missDistance + "-km";
+            velocityText.text = "Velocity: " + AsteroidDataManager.asteroidDataList.ElementAt(currentSelection).speed + "-km/h";
+        }
+    }
     public void IncreaseText()
     {
         currentSelection += 1;
