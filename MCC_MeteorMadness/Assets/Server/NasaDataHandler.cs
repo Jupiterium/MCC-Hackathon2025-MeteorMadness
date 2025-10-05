@@ -21,6 +21,7 @@ public class NasaDataHandler : MonoBehaviour
     {
         string requestUrl = $"{apiUrl}?api_key={apiKey}&start_date={startDate}&end_date={endDate}";
         UnityWebRequest www = UnityWebRequest.Get(requestUrl);
+        www.certificateHandler = new AcceptAllCertificatesSignedWithASpecificKeyPublicKey();
         yield return www.SendWebRequest();
 
         if (www.result == UnityWebRequest.Result.Success)
