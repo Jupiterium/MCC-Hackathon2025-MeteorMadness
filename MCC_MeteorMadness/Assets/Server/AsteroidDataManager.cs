@@ -82,7 +82,7 @@ public class AsteroidDataManager : MonoBehaviour
     public int currentIndex = 0;
 
     // Internals
-    private readonly List<GameObject> _spawned = new List<GameObject>();
+    private static List<GameObject> _spawned = new List<GameObject>();
 
     private void Awake()
     {
@@ -206,6 +206,11 @@ public class AsteroidDataManager : MonoBehaviour
     public static void UpdateAsteroidData(List<AsteroidData> newAsteroids)
     {
         asteroidDataList = newAsteroids;
+    }
+
+    public static GameObject getAsteroidIndex(int index)
+    {
+        return _spawned[index];
     }
 
     float ComputeVisualScale(float sizeMeters)

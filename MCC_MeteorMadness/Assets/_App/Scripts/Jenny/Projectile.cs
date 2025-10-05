@@ -5,26 +5,34 @@ public class Projectile : MonoBehaviour
     public Transform earth;
     public float speed = 5f;
     Rigidbody rb;
+    public bool isEnabled;
 
-    void Awake()
+    void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
         rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
         rb.isKinematic = false;
+        earth = GameObject.FindGameObjectWithTag("Earth").transform;
+
     }
 
     void FixedUpdate()
     {
         if (earth == null) return;
 
-        Vector3 dir = (earth.position - rb.position).normalized;
 
-        // Move
-        rb.MovePosition(rb.position + dir * speed * Time.fixedDeltaTime);
+        if (isEnabled)
+        {
+            
+            Vector3 dir = (earth.position - rb.position).normalized;
 
-        // Face the direction (optional)
-        rb.MoveRotation(Quaternion.LookRotation(dir, Vector3.up));
+            // Move
+            rb.MovePosition(rb.position + dir * speed * Time.fixedDeltaTime);
+
+            // Face the direction (optional)
+            rb.MoveRotation(Quaternion.LookRotation(dir, Vector3.up));
+        }
     }
 
     //void Awake()

@@ -15,12 +15,13 @@ public class AsteroidInfoUpdate : MonoBehaviour
     public bool verboseLogs = false;
 
     // current selection
-    int currentSelection = 0;
+    public int currentSelection = 0;
 
     // Scene scale: 1 unit = 1000 km
     const float UNITS_TO_KM = 1000f;
     public GameObject buttonPrevious;
     public GameObject buttonNext;
+    public GameObject buttonSimulate;
 
 
     public void Start()
