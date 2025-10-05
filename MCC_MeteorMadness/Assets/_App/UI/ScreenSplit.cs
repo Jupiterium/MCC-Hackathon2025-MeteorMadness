@@ -1,11 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem; // New Input System
 
-/// <summary>
-/// Split the game view into two resizable panes, each rendered by its own Camera.
-/// - Drag the vertical divider to resize the panes.
-/// - Scroll the mouse wheel over a pane to zoom that pane's camera (FOV or Ortho size).
-/// </summary>
 public class SplitScreen : MonoBehaviour
 {
     [Header("Cameras")]
@@ -134,7 +130,7 @@ public class SplitScreen : MonoBehaviour
     }
 
     private void OnGUI()
-    {
+    { 
         // Divider center in pixels
         float xPxCenter = (splitX * Screen.width);
 
