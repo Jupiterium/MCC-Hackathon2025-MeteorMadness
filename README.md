@@ -4,7 +4,7 @@ A group of students focusing on the Meteor Madness challenge, which will mostly 
 Team Members: 5
 
 Overview:
-Meteor Madness is our hackathon project developed for the Meteor Madness Challenge. The game/task focuses on [basic gameplay, challenge, or objective — keep it general]. Players interact with a dynamic environment, tackling challenges and achieving objectives while learning problem-solving and collaboration skills.
+Meteor Madness is our hackathon project developed for the Meteor Madness Challenge.
 
 Technologies Used:
 
